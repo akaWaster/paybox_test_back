@@ -7,8 +7,10 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\Error;
 use App\Http\Resources\UserCollection;
+use App\Roles;
 use App\Todos;
 use App\User;
+use DB;
 
 class AuthController extends Controller
 {
@@ -24,10 +26,19 @@ class AuthController extends Controller
         }
 
         $data['password'] = \Hash::make($data['password']);
+        DB::beginTransaction();
+        try {
+            $user = User::create($data);
+            $user->role()->create(['role' => Roles::USER_ROLE]);
+        } catch (\Exception $exception) {
+            DB::rollBack();
 
-        $user = User::create($data);
+            return response('User did not created', 500);
+        }
 
-        return ['token' => $user->createToken('token')->accessToken];
+        DB::commit();
+
+        return ['token' => $user->createToken('token')->accessToken, 'role' => $user->role()];
     }
 
 
@@ -41,8 +52,8 @@ class AuthController extends Controller
             return response(['aaa' => 'aaa'], 403);
         }
 
-        $token = $user->createToken('token')->accessToken;
+        $token = $user->createToken('Token')->accessToken;
 
-        return ['token' => $token];
+        return ['token' => $token, 'role' => $user->roles->role];
     }
 }

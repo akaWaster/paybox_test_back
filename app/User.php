@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Category;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -35,6 +36,7 @@ use Laravel\Passport\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Roles|null $roles
  */
 class User extends Authenticatable
 {
@@ -59,4 +61,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [];
+
+    public function roles()
+    {
+        return $this->hasOne('App\Roles', 'user_id');
+    }
 }
