@@ -15,13 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user', function (Request $request) {
+    Route::get('user', function (Request $request) {
         return $request->user();
     })->name('user.info');
 
-    Route::middleware('api.admin')->group(function () {
+    Route::prefix('payment')->group(function () {
+        Route::middleware('api.admin')->group(function () {
+
+            Route::post('add', function () {
+                return 'aaa';
+            });
+        });
 
     });
+
 });
 
 Route::post('register', 'API\AuthController@register');

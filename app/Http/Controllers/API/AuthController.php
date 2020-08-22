@@ -7,10 +7,11 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\Error;
 use App\Http\Resources\UserCollection;
-use App\Roles;
-use App\Todos;
+use App\models\Roles;
 use App\User;
 use DB;
+use Exception;
+use Hash;
 
 class AuthController extends Controller
 {
@@ -19,21 +20,22 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        $isCreatedUser = !empty(User::where('email', $data['email'])->first()) ?? true;
 
-        if ($isCreatedUser) {
+        $user = User::where('email', $data['email'])->first();
+
+        if (!empty($user)) {
             return ['error' => true, 'message' => 'User already exists'];
         }
 
-        $data['password'] = \Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
+
         DB::beginTransaction();
         try {
             $user = User::create($data);
-            $user->role()->create(['role' => Roles::USER_ROLE]);
-        } catch (\Exception $exception) {
+            $user->roles()->create(['role' => Roles::USER_ROLE]);
+        } catch (Exception $exception) {
             DB::rollBack();
-
-            return response('User did not created', 500);
+            return response($exception->getMessage(), 500);
         }
 
         DB::commit();
@@ -48,7 +50,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $data['email'])->first();
 
-        if (!\Hash::check($data['password'], $user->password)) {
+        if (!Hash::check($data['password'], $user->password)) {
             return response(['aaa' => 'aaa'], 403);
         }
 

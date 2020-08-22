@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Roles
+ * App\models\Roles
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -30,7 +30,9 @@ class Roles extends Model
 
     const USER_ROLE = 'user',
         ADMIN_ROLE = 'admin';
+
     protected $table = 'user_roles';
+
     protected $fillable = [
         'role', 'user_id',
     ];

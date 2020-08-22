@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Roles;
+use App\models\Roles;
 use Closure;
 
 class AccessAdmin
