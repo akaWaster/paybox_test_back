@@ -20,13 +20,6 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-
-        $user = User::where('email', $data['email'])->first();
-
-        if (!empty($user)) {
-            return ['error' => true, 'message' => 'User already exists'];
-        }
-
         $data['password'] = Hash::make($data['password']);
 
         DB::beginTransaction();

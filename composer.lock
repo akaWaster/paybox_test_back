@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25665233a11e0b140684f75dc534dc79",
+    "content-hash": "3798f99295a4f4a7122ba0775f02a456",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1906,6 +1906,55 @@
             "time": "2020-05-22T08:12:19+00:00"
         },
         {
+            "name": "nekman/luhn-algorithm",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ekman/luhn-algorithm.git",
+                "reference": "27bb5abaf7975779ea56371d2e92325e84f4a2f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ekman/luhn-algorithm/zipball/27bb5abaf7975779ea56371d2e92325e84f4a2f6",
+                "reference": "27bb5abaf7975779ea56371d2e92325e84f4a2f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.15",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^6.0||^7.0",
+                "symfony/yaml": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nekman\\LuhnAlgorithm\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Niklas Ekman",
+                    "email": "nikl.ekman@gmail.com"
+                }
+            ],
+            "description": "Implementation of the Luhn algorithm in PHP. Used in validation of credit card numbers and some national identification numbers.",
+            "keywords": [
+                "card",
+                "credit",
+                "identification",
+                "luhn",
+                "validation"
+            ],
+            "time": "2020-04-23T20:04:55+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "2.35.0",
             "source": {
@@ -2445,12 +2494,12 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
+                "url": "https://github.com/predis/predis.git",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "shasum": ""
             },
@@ -8418,7 +8467,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5"
+        "php": "^7.3",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"

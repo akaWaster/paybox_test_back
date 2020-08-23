@@ -3,6 +3,7 @@
 namespace App\models;
 
 use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -18,6 +19,17 @@ use Illuminate\Support\Carbon;
  * @property string $card_information
  * @property Carbon|null $paid_at
  * @mixin Eloquent
+ * @method static Builder|Payments newModelQuery()
+ * @method static Builder|Payments newQuery()
+ * @method static Builder|Payments query()
+ * @method static Builder|Payments whereAmount($value)
+ * @method static Builder|Payments whereCardInformation($value)
+ * @method static Builder|Payments whereCreatedAt($value)
+ * @method static Builder|Payments whereId($value)
+ * @method static Builder|Payments wherePaidAt($value)
+ * @method static Builder|Payments whereStatus($value)
+ * @method static Builder|Payments whereUpdatedAt($value)
+ * @method static Builder|Payments whereUserId($value)
  */
 class Payments extends Model
 {
@@ -27,10 +39,22 @@ class Payments extends Model
         PAYMENT_FAILED = 3,
         PAYMENT_REATTEMPTED = 4;
 
-    protected $table = 'user_roles';
+    const STATUSES = [
+        SELF::PAYMENT_CREATED => 'Payment is created',
+        SELF::PAYMENT_IN_PROGRESS => 'Payment is in Progress',
+        SELF::PAYMENT_PAID => 'Payment is Paid',
+        SELF::PAYMENT_FAILED => 'Payment Failed',
+        SELF::PAYMENT_REATTEMPTED => 'Payment Reattempted'
+    ];
+    protected $table = 'payment';
 
     protected $fillable = [
         'card_information', 'paid_at', 'user_id', 'status', 'amount'
     ];
 
+    public function setInProgress(): void
+    {
+        $this->status = self::PAYMENT_IN_PROGRESS;
+        $this->save();
+    }
 }

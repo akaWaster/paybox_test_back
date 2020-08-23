@@ -1,24 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\classes\Payments\creators\CardCreator;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AddPaymentRequest;
+use App\Http\Requests\PayPaymentRequest;
+use App\Http\Resources\Payment as PaymentResource;
+use App\models\Payment\PaymentValidator;
 use App\models\Payments;
-use Request;
+
 
 class PaymentController extends Controller
 {
-    public function add(Request $request)
+    public function add(AddPaymentRequest $request): PaymentResource
     {
-        $request->validate([
-            'amount' => 'required|float',
-            'user_id' => 'required|integer|exists:users,id'
-        ]);
 
-        $payment = Payments::create($request);
+        $validatedData = PaymentValidator::getValidatedData($request);
+        $payment = Payments::create($validatedData);
+        $payment->setInProgress();
 
-        $payment->status = Payments::PAYMENT_IN_PROGRESS;
-        $payment->save();
+        return new PaymentResource($payment);
+    }
 
-        return $payment;
+    public function pay(PayPaymentRequest $request)
+    {
+        $payment = Payments::find($request['payment_id']);
+        $payment = new CardCreator($payment);
+
+        return $payment->pay($request);
     }
 }

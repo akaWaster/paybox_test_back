@@ -23,7 +23,7 @@ class Payment extends Migration
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->float('amount');
             $table->integer('status')->default(Payments::PAYMENT_CREATED)->index('status-payment-index');
-            $table->date('paid_at')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->json('card_information')->nullable();
         });
     }

@@ -22,10 +22,9 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('payment')->group(function () {
         Route::middleware('api.admin')->group(function () {
 
-            Route::post('add', function () {
-                return 'aaa';
-            });
+            Route::put('add', 'API\PaymentController@add');
         });
+        Route::post('pay','API\PaymentController@pay');
 
     });
 
