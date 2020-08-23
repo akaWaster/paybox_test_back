@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Http\Resources\PaymentCollection;
+use App\models\Payments;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function addPhone(Request $request)
+    public function payments(Request $request)
     {
-        $user_id = $request->user()->id;
-    }
+        $request->validate([
+            'page' => 'required|integer',
+        ]);
 
-    public function information()
-    {
+        $payments = Payments::where('user_id', $request->user()->id)
+            ->limit(10)
+            ->offset(($request->input('page') - 1) * 10)
+            ->get();
 
-    }
-
-    public function payments()
-    {
-        //TODO: Сделать реализацию все платежей по пользователю
+        return new PaymentCollection($payments);
     }
 }

@@ -15,20 +15,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('user', function (Request $request) {
-        return $request->user();
-    })->name('user.info');
+
+    Route::prefix('user')->group(function () {
+        Route::middleware('api.admin')->get('all', 'API\AdminController@users');
+        Route::get('info', function (Request $request) {
+            return $request->user();
+        });
+        Route::get('payments/all', 'API\UserController@payments');
+    });
 
     Route::prefix('payment')->group(function () {
         Route::middleware('api.admin')->group(function () {
-
             Route::put('add', 'API\PaymentController@add');
         });
-        Route::post('pay','API\PaymentController@pay');
-
+        Route::post('pay', 'API\PaymentController@pay');
     });
-
 });
 
 Route::post('register', 'API\AuthController@register');
-Route::post('login', 'API\AuthController@login');
+Route::get('login', 'API\AuthController@login');

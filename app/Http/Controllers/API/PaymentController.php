@@ -15,7 +15,6 @@ class PaymentController extends Controller
 {
     public function add(AddPaymentRequest $request): PaymentResource
     {
-
         $validatedData = PaymentValidator::getValidatedData($request);
         $payment = Payments::create($validatedData);
         $payment->setInProgress();
